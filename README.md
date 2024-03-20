@@ -1,6 +1,6 @@
 # AI-Lab
 
-Codes & reports for artificial intelligence laboratory(DCS315)
+Codes & reports for artificial intelligence laboratory (DCS315) 
 
 ## Testing
 

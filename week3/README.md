@@ -13,5 +13,12 @@ $$
 $$
 
 - `Report.md`: Report. Written based on `ResolutionFOL_v2.py`.
+
 - `Task.pdf`: Task description.
+
 - `Tutor.pdf`: Tutor slides.
+
+- `test.py`: The test function using`ResolutionFOL_v2`.
+
+  Run the test by the command `pytest -s test.py`.
+
