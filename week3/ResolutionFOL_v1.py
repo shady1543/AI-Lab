@@ -3,8 +3,24 @@
 
 # In[1]:
 
+"""
+Project: ResolutionFOL.
+Author : xiezx (stuID:22336261)
+Time   : 24-03-15
+"""
+
 
 def parse_predicate(predicate):
+    """
+    解析逻辑谓词字符串，提取谓词名称和参数列表。
+
+    参数:
+    - predicate: 字符串，表示逻辑谓词的字符串。
+
+    返回值:
+    - 元组，包含两个元素：谓词名称（字符串）和参数列表（字符串列表）。
+      如果谓词被否定，谓词名称将包含否定符号(~)。
+    """
     negation = False
     if predicate.startswith('~'):
         negation = True
@@ -27,10 +43,30 @@ import re
 
 
 def is_variable(term):
+    """
+    使用正则表达式判断给定的字符串是否表示一个变量。
+
+    参数:
+    - term: 一个字符串，待判断是否为变量的项。
+
+    返回值:
+    - 如果`term`符合变量的定义，则返回True；否则返回False。
+    """
     return re.match(r'^[u-z]{1,2}$', term) is not None
 
 
 def apply_mgu(predicate1, predicate2):
+    """
+     应用最一般合一（Most General Unifier, MGU）算法，计算两个谓词的合一替换。
+
+     参数:
+     - predicate1: 字符串，表示第一个谓词的逻辑表达式。
+     - predicate2: 字符串，表示第二个谓词的逻辑表达式。
+
+     返回值:
+     - 字典，包含合一替换，其中键是变量，值是替换后的表达式；
+       如果两个谓词无法合一，则返回None。
+     """
     _, args1 = parse_predicate(predicate1)
     _, args2 = parse_predicate(predicate2)
 
@@ -50,6 +86,16 @@ def apply_mgu(predicate1, predicate2):
 
 
 def can_resolve(clause1, clause2):
+    """
+    检查两个子句是否可以通过归结来解决，即是否存在互补的谓词对。
+
+    参数:
+    - clause1: 子句1，包含多个逻辑谓词的元组。
+    - clause2: 子句2，包含多个逻辑谓词的元组。
+
+    返回值:
+    - 布尔值和谓词对元组：如果可以解决，则返回True和可归结的谓词对；否则返回False和空元组。
+    """
     for pred1 in clause1:
         for pred2 in clause2:
             name1, args1 = parse_predicate(pred1)
@@ -66,6 +112,16 @@ def can_resolve(clause1, clause2):
 
 
 def apply_substitutions_to_clause(clause, substitutions):
+    """
+    在一个子句中应用变量替换。
+
+    参数:
+    - clause: 包含多个逻辑谓词的元组，代表一个逻辑子句。
+    - substitutions: 一个字典，其中键是变量名，值是替换后的值或表达式。
+
+    返回值:
+    - 元组，包含应用了替换的新子句。
+    """
     new_clause = []
     for predicate in clause:
         name, args = parse_predicate(predicate)
@@ -81,6 +137,15 @@ def apply_substitutions_to_clause(clause, substitutions):
 
 
 def ResolutionFOL(KB):
+    """
+    主推理逻辑。执行归结推理算法，从知识库KB中推导出结论。
+
+    参数:
+    - KB: 知识库，一个包含逻辑子句的集合。
+
+    返回值:
+    - 步骤列表，记录了归结推理的每一步。
+    """
     steps = []
     new_clauses = set()
     clauses = list(KB)
@@ -91,6 +156,18 @@ def ResolutionFOL(KB):
         steps.append(f"{clause_to_step[clause]} {clause}")
 
     def format_clause_index(clause, predicate_index, total_predicates):
+        """
+        格式化子句索引。
+
+        参数:
+        - clause: 子句，表示当前处理的逻辑子句。
+        - predicate_index: 整数，表示在子句中的谓词索引（从0开始）。
+        - total_predicates: 整数，表示子句中总的谓词数量。
+
+        返回值:
+        - 字符串，表示格式化后的子句索引。如果子句中只有一个谓词，则返回基础索引；
+          如果子句包含多个谓词，则返回基础索引加上谓词的特定字母标识（如1a, 1b等）。
+        """
         base_index = clause_to_step[clause]
         if total_predicates > 1:
             return f"{base_index}{chr(97 + predicate_index)}"
@@ -101,6 +178,7 @@ def ResolutionFOL(KB):
         for i, clause1 in enumerate(clauses):
             for j, clause2 in enumerate(clauses[i + 1:], start=i + 1):
                 if (i, j) not in resolved_pairs and can_resolve(clause1, clause2)[0]:
+                    # 推理
                     resolved_pairs.add((i, j))
                     _, predicates_to_resolve = can_resolve(clause1, clause2)
                     substitutions = apply_mgu(predicates_to_resolve[0], predicates_to_resolve[1])
@@ -112,10 +190,13 @@ def ResolutionFOL(KB):
                         apply_substitutions_to_clause(predicates_to_resolve, substitutions))
                     resolvents = tuple(sorted(resolvents, key=lambda x: x.replace('~', '')))
 
+                    # 格式化
                     i_formatted = format_clause_index(clause1, clause1.index(predicates_to_resolve[0]), len(clause1))
                     j_formatted = format_clause_index(clause2, clause2.index(predicates_to_resolve[1]), len(clause2))
                     unified_str = unified if unified else ''
                     step_str = f"R[{i_formatted},{j_formatted}]{unified_str} = {resolvents}"
+
+                    # 判断结束推理
                     if not resolvents:
                         steps.append(f"{len(steps) + 1} {step_str}")
                         return steps

@@ -1,6 +1,16 @@
 # ResolutionFOL
 
-- `ResolutionFOL_v1.py`：基础版本，可以通过大部分简单测例
-- `ResolutionFOL_v2.py`：进一步封装、改进之后的版本。可以处理更加复杂的测例
-- `lab3.md`：实验报告
+- `ResolutionFOL_v1.py`：Basic version. Able to handle most simple tests.
+
+  CANNOT handle complex formulas.
+
+- `ResolutionFOL_v2.py`：Improved version (main logic encapsulated & modified). 
+
+  The improved version is able to handle complex formulas like:
+
+$$
+\text{Predicate}(f(g(h(x))))
+$$
+
+- `lab3.md`：Report. Written based on `ResolutionFOL_v2.py`.
 
