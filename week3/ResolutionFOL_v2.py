@@ -1,16 +1,16 @@
 """
 Project: ResolutionFOL.
-Author : shady1543
+Author : shady1543, Tokisakix
 Time   : 24-03-15
 """
 import re
 
 
 class ResolutionFOL:
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def __call__(self, KB):
+    def __call__(self, KB:set[tuple[str]]) -> list[str]:
         """
         主推理逻辑。执行归结推理算法，从知识库KB中推导出结论。
 
@@ -80,7 +80,7 @@ class ResolutionFOL:
 
         return self.steps  # 返回所有推理步骤
 
-    def is_variable(self, term):
+    def is_variable(self, term:str) -> bool:
         """
         使用正则表达式判断给定的字符串是否表示一个变量。
 
@@ -93,7 +93,7 @@ class ResolutionFOL:
         # 使用正则表达式匹配小写字母t到z之间的1到2个字符，判断是否为变量
         return re.match(r'^[t-z]{1,2}$', term) is not None
 
-    def parse_predicate(self, predicate):
+    def parse_predicate(self, predicate:str) -> tuple[str, list[str]]:
         """
         解析逻辑谓词字符串，提取谓词名称和参数列表。
 
@@ -120,7 +120,7 @@ class ResolutionFOL:
 
         return (name, args)
 
-    def apply_mgu(self, predicate1, predicate2):
+    def apply_mgu(self, predicate1:str, predicate2:str) -> dict:
         """
         应用最一般合一（Most General Unifier, MGU）算法，计算两个谓词的合一替换。
 
@@ -156,7 +156,7 @@ class ResolutionFOL:
 
         return substitutions
 
-    def can_resolve(self, clause1, clause2):
+    def can_resolve(self, clause1:tuple[str], clause2:tuple[str]) -> tuple[bool, list[str]]:
         """
         检查两个子句是否可以通过归结来解决，即是否存在互补的谓词对。
 
@@ -181,7 +181,7 @@ class ResolutionFOL:
         # 如果没有找到可以归结的互补谓词对，返回False和空元组
         return False, ()
 
-    def apply_substitutions_to_clause(self, clause, substitutions):
+    def apply_substitutions_to_clause(self, clause:tuple[str], substitutions:dict) -> tuple[list[str]]:
         """
         在一个子句中应用变量替换。
 
@@ -208,7 +208,7 @@ class ResolutionFOL:
             new_clause.append(new_predicate)
         return tuple(new_clause)
 
-    def format_clause_index(self, clause, predicate_index, total_predicates):
+    def format_clause_index(self, clause:str, predicate_index:int, total_predicates:int):
         """
         格式化子句索引。
 
@@ -227,66 +227,3 @@ class ResolutionFOL:
             return f"{base_index}{chr(97 + predicate_index)}"
         # 子句中只有一个谓词时，直接返回基础索引
         return base_index
-
-
-solver = ResolutionFOL()
-
-KB1 = {('GradStudent(sue)',),
-       ('~GradStudent(x)', 'Student(x)'),
-       ('~Student(x)', 'HardWorker(x)'),
-       ('~HardWorker(sue)',)}
-
-print('--- Test case # 1 ---')
-resolution_steps1 = solver(KB1)
-for step in resolution_steps1:
-    print(step)
-
-KB2 = {
-    ('A(tony)',),
-    ('A(mike)',),
-    ('A(john)',),
-    ('L(tony,rain)',),
-    ('L(tony,snow)',),
-    ('~A(x)', 'S(x)', 'C(x)'),
-    ('~C(y)', '~L(y,rain)'),
-    ('L(z,snow)', '~S(z)'),
-    ('~L(tony,u)', '~L(mike,u)'),
-    ('L(tony,v)', 'L(mike,v)'),
-    ('~A(w)', '~C(w)', 'S(w)')}
-
-print('--- Test case # 2 ---')
-resolution_steps2 = solver(KB2)
-for step in resolution_steps2:
-    print(step)
-
-KB3 = {('On(tony,mike)',),
-       ('On(mike,john)',),
-       ('Green(tony)',),
-       ('~Green(john)',),
-       ('~On(xx,yy)', '~Green(xx)', 'Green(yy)')}
-
-print('--- Test case # 3 ---')
-resolution_steps3 = solver(KB3)
-for step in resolution_steps3:
-    print(step)
-
-KB4 = {('I(bb)',),
-       ('U(aa,bb)',),
-       ('~F(u)',),
-       ('~I(y)', '~U(x,y)', 'F(f(z))'),
-       ('~I(v)', '~U(w,v)', 'E(w,f(w))')}
-
-print('--- Test case # 4 ---')
-resolution_steps4 = solver(KB4)
-for step in resolution_steps4:
-    print(step)
-
-KB5 = {('~P(aa)',),
-       ('P(z)', '~Q(f(z),f(u))'),
-       ('Q(x,f(g(y)))', 'R(s)'),
-       ('~R(t)',)}
-
-print('--- Test case # 5 ---')
-resolution_steps5 = solver(KB5)
-for step in resolution_steps5:
-    print(step)

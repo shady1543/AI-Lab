@@ -1,5 +1,12 @@
 # AI-Lab
-Codes & reports for artificial intelligence laboratory（DCS315）
+
+Codes & reports for artificial intelligence laboratory(DCS315)
+
+## Testing
+
+- We use pytest framework to write small, readable tests, and can scale to support complex functional testing.
+
+- Run the test we wrote by executing the command `pytest -s test.py` in the `week*/` directory.
 
 ## Note: 
 

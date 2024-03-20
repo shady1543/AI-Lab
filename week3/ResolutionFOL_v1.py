@@ -1,16 +1,11 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
 """
 Project: ResolutionFOL.
-Author : shady1543
+Author : shady1543, Tokisakix
 Time   : 24-03-15
 """
+import re
 
-
-def parse_predicate(predicate):
+def parse_predicate(predicate:str) -> tuple[str, list[str]]:
     """
     解析逻辑谓词字符串，提取谓词名称和参数列表。
 
@@ -36,13 +31,7 @@ def parse_predicate(predicate):
     return (name, args)
 
 
-# In[2]:
-
-
-import re
-
-
-def is_variable(term):
+def is_variable(term:str) -> bool:
     """
     使用正则表达式判断给定的字符串是否表示一个变量。
 
@@ -55,7 +44,7 @@ def is_variable(term):
     return re.match(r'^[u-z]{1,2}$', term) is not None
 
 
-def apply_mgu(predicate1, predicate2):
+def apply_mgu(predicate1:str, predicate2:str) -> dict:
     """
      应用最一般合一（Most General Unifier, MGU）算法，计算两个谓词的合一替换。
 
@@ -85,7 +74,7 @@ def apply_mgu(predicate1, predicate2):
     return substitutions
 
 
-def can_resolve(clause1, clause2):
+def can_resolve(clause1:tuple[str], clause2:tuple[str]) -> tuple[bool, tuple[str, str]]:
     """
     检查两个子句是否可以通过归结来解决，即是否存在互补的谓词对。
 
@@ -108,10 +97,7 @@ def can_resolve(clause1, clause2):
     return False, ()
 
 
-# In[3]:
-
-
-def apply_substitutions_to_clause(clause, substitutions):
+def apply_substitutions_to_clause(clause:tuple[str], substitutions:dict) -> tuple[list[str]]:
     """
     在一个子句中应用变量替换。
 
@@ -133,10 +119,7 @@ def apply_substitutions_to_clause(clause, substitutions):
     return tuple(new_clause)
 
 
-# In[4]:
-
-
-def ResolutionFOL(KB):
+def ResolutionFOL(KB:set[tuple[str]]) -> list[str]:
     """
     主推理逻辑。执行归结推理算法，从知识库KB中推导出结论。
 
@@ -155,7 +138,7 @@ def ResolutionFOL(KB):
     for clause in clauses:
         steps.append(f"{clause_to_step[clause]} {clause}")
 
-    def format_clause_index(clause, predicate_index, total_predicates):
+    def format_clause_index(clause:str, predicate_index:int, total_predicates:int) -> str:
         """
         格式化子句索引。
 
@@ -215,39 +198,3 @@ def ResolutionFOL(KB):
         new_clauses.clear()
 
     return steps
-
-
-KB = {('GradStudent(sue)',), ('~GradStudent(x)', 'Student(x)'), ('~Student(x)', 'HardWorker(x)'), ('~HardWorker(sue)',)}
-resolution_steps = ResolutionFOL(KB)
-
-for step in resolution_steps:
-    print(step)
-
-# In[5]:
-
-
-KB1 = {('A(tony)',), ('A(mike)',), ('A(john)',), ('L(tony,rain)',), ('L(tony,snow)',),
-       ('~A(x)', 'S(x)', 'C(x)'), ('~C(y)', '~L(y,rain)'), ('L(z,snow)', '~S(z)'),
-       ('~L(tony,u)', '~L(mike,u)'), ('L(tony,v)', 'L(mike,v)'), ('~A(w)', '~C(w)', 'S(w)')}
-
-resolution_steps_kb1 = ResolutionFOL(KB1)
-for step in resolution_steps_kb1:
-    print(step)
-
-# In[6]:
-
-
-KB2 = {('On(tony,mike)',), ('On(mike,john)',), ('Green(tony)',), ('~Green(john)',),
-       ('~On(xx,yy)', '~Green(xx)', 'Green(yy)')}
-
-resolution_steps_kb2 = ResolutionFOL(KB2)
-for step in resolution_steps_kb2:
-    print(step)
-
-# In[ ]:
-
-
-# In[ ]:
-
-
-# In[ ]:
