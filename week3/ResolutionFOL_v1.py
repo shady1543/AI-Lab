@@ -5,7 +5,7 @@
 
 """
 Project: ResolutionFOL.
-Author : xiezx (stuID:22336261)
+Author : shady1543
 Time   : 24-03-15
 """
 
