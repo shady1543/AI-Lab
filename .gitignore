@@ -1,5 +1,7 @@
 # Ignore IDEA settings
 .idea/
+venv/
+__pycache__/
 
 # Ignore cache file
 .pytest_cache
