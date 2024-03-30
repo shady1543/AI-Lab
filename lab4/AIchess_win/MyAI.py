@@ -140,11 +140,25 @@ class MyAI(object):
         self.max_depth = max_depth
         self.evaluate_class = Evaluate(self.team)
         self.best_move = None
+        self.last_move = []
 
     def get_next_step(self, chessboard: ChessBoard):
         self.alpha_beta(chessboard, 0, -float('inf'), float('inf'), True)
+
         if self.best_move:
             cur_row, cur_col, nxt_row, nxt_col = self.best_move
+
+            # 去重
+            self.last_move.append((nxt_row, nxt_col, cur_row, cur_col))
+            if len(self.last_move) > 3:
+                self.last_move.pop(0)
+
+            # 加深
+            if len(chessboard.get_chess()) <= 18:
+                self.max_depth = 4
+            if len(chessboard.get_chess()) <= 15:
+                self.max_depth = 5
+
             return cur_row, cur_col, nxt_row, nxt_col
         return None
 
@@ -175,6 +189,8 @@ class MyAI(object):
             for chess in chessboard.get_chess():
                 if chess.team == self.team:
                     for nxt_row, nxt_col in chessboard.get_put_down_position(chess):
+                        if (chess.row, chess.col, nxt_row, nxt_col) in self.last_move:
+                            continue
                         old_row, old_col, taken_chess = self.make_move(chessboard, chess, nxt_row, nxt_col)
                         eval = self.alpha_beta(chessboard, depth + 1, alpha, beta, False)
                         self.undo_move(chessboard, chess, old_row, old_col, taken_chess)
@@ -191,6 +207,8 @@ class MyAI(object):
             for chess in chessboard.get_chess():
                 if chess.team != self.team:
                     for nxt_row, nxt_col in chessboard.get_put_down_position(chess):
+                        if (chess.row, chess.col, nxt_row, nxt_col) in self.last_move:
+                            continue
                         old_row, old_col, taken_chess = self.make_move(chessboard, chess, nxt_row, nxt_col)
                         eval = self.alpha_beta(chessboard, depth + 1, alpha, beta, True)
                         self.undo_move(chessboard, chess, old_row, old_col, taken_chess)

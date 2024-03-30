@@ -1,5 +1,6 @@
 import pygame
 from ChessBoard import *
+import time
 
 
 class BackChess(pygame.sprite.Sprite):
@@ -118,6 +119,7 @@ class Game(object):
                 self.screen.blit(self.win_img, (550, 100))
             else:
                 self.screen.blit(self.win_img, (550, 450))
+            # time.sleep(100)
             return
 
         if self.show_draw:
@@ -126,8 +128,10 @@ class Game(object):
                 self.show_draw_count = 0
                 # self.show_draw = False
                 # self.reset_game()  # 游戏玩过一局之后，重置游戏
+
         if self.show_draw:
             self.screen.blit(self.draw_img, (550, 275))
+            # time.sleep(100)
             return
 
         # 通过计时，实现显示一会"将军"之后，就消失

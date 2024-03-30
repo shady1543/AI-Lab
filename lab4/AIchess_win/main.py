@@ -9,10 +9,10 @@ from ChessAI import *
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='Game mode settings')
-    parser.add_argument('--red', choices=['MyAI', 'Human', 'SuperAI'], default='MyAI',
+    parser = argparse.ArgumentParser(description='游戏设置')
+    parser.add_argument('--red', choices=['MyAI', 'Human', 'SuperAI'], default='SuperAI',
                         help='选择红色方（先手方）')
-    parser.add_argument('--black', choices=['MyAI', 'Human', 'SuperAI'], default='SuperAI',
+    parser.add_argument('--black', choices=['MyAI', 'Human', 'SuperAI'], default='MyAI',
                         help='选择黑色方（后手方）')
     return parser.parse_args()
 

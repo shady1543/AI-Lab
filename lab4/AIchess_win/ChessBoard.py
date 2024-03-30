@@ -22,7 +22,6 @@ class ChessBoard(object):
 
     def show_chess(self):
         """显示当前棋盘上的所有棋子"""
-        # 显示棋盘上的所有棋子
         for line_chess in self.chessboard_map:
             for chess in line_chess:
                 if chess:
@@ -50,16 +49,29 @@ class ChessBoard(object):
         ]
         # --- Debug ---
         # self.chessboard_map = [
-        #     ["", "", "", "b_s", "b_j", "b_s", "b_x", "", "b_c"],
-        #     ["r_p", "", "", "", "", "", "", "", ""],
-        #     ["b_m", "b_p", "", "", "b_x", "", "b_m", "b_p", ""],
-        #     ["", "", "b_z", "", "b_z", "", "b_z", "", "b_z"],
+        #     ["", "", "", "b_s", "b_j", "", "", "", ""],
+        #     ["", "", "", "r_c", "b_s", "", "", "", ""],
+        #     ["", "", "", "", "b_x", "", "r_m", "", "b_x"],
+        #     ["", "", "", "", "", "r_c", "", "", ""],
+        #     ["", "", "", "", "", "", "", "", "b_z"],
+        #     ["b_z", "", "", "", "", "", "", "", ""],
+        #     ["", "", "", "", "b_c", "", "", "", ""],
+        #     ["", "b_c", "", "", "r_x", "", "", "", ""],
         #     ["", "", "", "", "", "", "", "", ""],
+        #     ["", "", "", "r_s", "r_j", "r_s", "r_x", "", ""],
+        # ]
+        # --- Debug ---
+        # self.chessboard_map = [
+        #     ["", "", "", "", "b_j", "", "b_x", "", ""],
         #     ["", "", "", "", "", "", "", "", ""],
-        #     ["r_z", "", "r_z", "", "r_z", "", "r_z", "", "r_z"],
-        #     ["", "r_p", "", "", "", "", "", "", ""],
-        #     ["", "", "", "", "", "", "", "", ""],
-        #     ["r_c", "r_m", "r_x", "r_s", "r_j", "r_s", "r_x", "r_m", "r_c"],
+        #     ["", "", "", "", "b_p", "", "", "", ""],
+        #     ["b_z", "", "b_z", "b_c", "", "", "", "", "b_z"],
+        #     ["", "", "", "", "", "", "b_z", "", ""],
+        #     ["", "", "r_z", "", "b_m", "", "", "", ""],
+        #     ["r_z", "", "", "", "", "", "", "", "r_z"],
+        #     ["", "", "r_m", "", "r_x", "", "", "", ""],
+        #     ["", "", "", "", "", "r_j", "", "", ""],
+        #     ["", "", "", "r_s", "", "r_s", "r_x", "", ""],
         # ]
         for row, line in enumerate(self.chessboard_map):
             for col, chess_name in enumerate(line):
@@ -94,8 +106,8 @@ class ChessBoard(object):
             'b': '黑方',
             'r': '红方',
         }
-        chess_name = special_names.get(team, {}).get(name, chess_name_mapping.get(name, '未知'))
-        team_name = team_mapping.get(team, '未知方')
+        chess_name = special_names.get(team, {}).get(name, chess_name_mapping.get(name, ''))
+        team_name = team_mapping.get(team, '')
         message = f'{team_name}的「{chess_name}」从 ({old_row},{old_col}) 被移动到 ({new_row},{new_col})'
         return message
 
@@ -127,10 +139,6 @@ class ChessBoard(object):
     def get_put_down_position(self, clicked_chess):
         """获取当前被点击棋子可以落子的位置坐标"""
         put_down_chess_pos = list()
-        # put_down_chess_pos.append((clicked_chess.row - 1, clicked_chess.col))
-        # put_down_chess_pos.append((clicked_chess.row + 1, clicked_chess.col))
-        # put_down_chess_pos.append((clicked_chess.row, clicked_chess.col - 1))
-        # put_down_chess_pos.append((clicked_chess.row, clicked_chess.col + 1))
         team = clicked_chess.team
         row = clicked_chess.row
         col = clicked_chess.col
