@@ -13,7 +13,7 @@ class GeneticAlgTSP:
     def __init__(self, filename):
         self.name = filename.split('/')[2].split(".")[0]
         self.cities = self.load_cities(filename)
-        self.population_size = 4
+        self.population_size = 2
         self.population = self.add_population(self.population_size)
         self.distances = []
         self.depth = 3
@@ -47,7 +47,7 @@ class GeneticAlgTSP:
                 if len(parts) == 3 and start:
                     _, x, y = parts
                     cities.append((float(x), float(y)))
-        return np.array(cities)
+        return np.array(list(set(cities)))
 
     def add_population(self, population_size):
         n = len(self.cities)
@@ -80,6 +80,10 @@ class GeneticAlgTSP:
         return 1 / total_distance
 
     def select_parents(self, population):
+        # 排序
+        # return population[0], population[1]
+
+        # 轮盘赌
         fitness_values = [self.calculate_fitness(individual) for individual in population]
         total_fitness = sum(fitness_values)
         selection_probs = [fitness / total_fitness for fitness in fitness_values]
@@ -88,11 +92,14 @@ class GeneticAlgTSP:
 
     def pmx_crossover(self, p1, p2):
         length = len(p1)
+        # 随机生成两个在0~length-1范围的下标s,t，确保s<t
         s, t = sorted(random.sample(range(length), 2))
 
+        # 交换p1,p2在s~t的部分
         new_p1 = p1[:s] + p2[s:t + 1] + p1[t + 1:]
         new_p2 = p2[:s] + p1[s:t + 1] + p2[t + 1:]
 
+        # 存储映射关系
         mapping_p1_p2 = {}
         for i in range(s, t + 1):
             mapping_p1_p2[p1[i]] = p2[i]
@@ -103,6 +110,7 @@ class GeneticAlgTSP:
             for i in range(len(seq)):
                 if not (s <= i <= t):
                     while new_seq[i] in mapping.values():
+                        # 查找链式映射直到找到一个不在交换段内的值
                         for k, v in mapping.items():
                             if v == new_seq[i]:
                                 new_seq[i] = k
@@ -118,12 +126,16 @@ class GeneticAlgTSP:
 
     def inversion_mutation(self, individual):
         length = len(individual)
+        # 随机生成两个在0~length-1范围的下标s,t，确保s<t
         s, t = sorted(random.sample(range(length), 2))
+        # 将s,t中间部分倒置
         individual[s:t + 1] = individual[s:t + 1][::-1]
         return individual
 
     def swap_mutation(self, individual):
+        # 选择两个不同的随机索引
         idx1, idx2 = random.sample(range(len(individual)), 2)
+        # 交换这两个索引对应的值
         individual[idx1], individual[idx2] = individual[idx2], individual[idx1]
         return individual
 
@@ -187,6 +199,8 @@ class GeneticAlgTSP:
                                  f'Solution = {sol}\n'
                                  f'Distance = {dist}\n')
 
+            self.plot_distances()
+
             self.logging(f'---- BEGIN 2-OPTIMIZATION ----')
             self.logging(f'Before 2-opt:\n'
                          f'Best Solution = {sol}\n'
@@ -206,6 +220,8 @@ class GeneticAlgTSP:
             self.logging(f'After 3-opt:\n'
                          f'Best Solution = {three_opt_sol}\n'
                          f'Best Distance = {three_opt_dist}\n')
+
+            self.plot_path(three_opt_sol)
 
             return three_opt_sol, three_opt_dist
 
@@ -238,6 +254,10 @@ class GeneticAlgTSP:
         return best
 
     def three_opt(self, route):
+        # 如果城市太多，放弃3-opt优化
+        if len(self.cities) > 500:
+            return route
+
         best = route
         improved = True
         while improved:
@@ -302,15 +322,13 @@ class GeneticAlgTSP:
 
 def main():
     start = time.time()
-    ga_tsp = GeneticAlgTSP("./data/qa194.tsp")
-    best_solution, best_distance = ga_tsp.iterate(len(ga_tsp.cities) * 500)
+    ga_tsp = GeneticAlgTSP("./data/uy734.tsp")
+    best_solution, best_distance = ga_tsp.iterate(len(ga_tsp.cities) * 100)
     end = time.time()
     print('---- FINAL RESULTS ----')
     print(f'Best Solution: {best_solution}')
     print(f'Minimum Distance: {best_distance}')
     print(f'Execute Time: {end - start}')
-    ga_tsp.plot_path(best_solution)
-    ga_tsp.plot_distances()
 
 
 if __name__ == '__main__':

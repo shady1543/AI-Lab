@@ -5,7 +5,7 @@ Time   : 24-03-20
 """
 import pytest
 
-from ResolutionFOL_v2 import ResolutionFOL
+from ResolutionFOL import ResolutionFOL
 
 
 # ------Test------
