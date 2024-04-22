@@ -14,4 +14,4 @@
 
 * `results/`: Execution results. 
 
-**NOTE: **Using datasets with cities  $\ge 500$  is strongly unrecommended.
+**NOTE: ** Using datasets with cities  $\ge 500$  is **STRONGLY UNRECOMMENDED.**
