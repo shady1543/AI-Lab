@@ -1,12 +1,45 @@
 # 中国象棋
 
+## 文件结构
 
+* `Task.pdf`: 任务描述。
 
-* `Task.pdf`: Description of the task.
+* `Tutor.pptx`: 实验课件。
 
-* `Tutor.pdf`: Tutor slides.
+* `AIchess_win`: 代码仓库。
 
-* `AIchess_win`: Codebase.
+* `requirements.txt`: 项目需求环境。
 
-* `requirements.txt`: Requirements for the project.
+## 算法原理
 
+### 博弈树搜索
+
+博弈树搜索是应用于两个玩家的零和游戏的一种算法，用于寻找最佳的游戏策略。在本次实验的象棋背景下，两个玩家将交替进行移动，目标是最大化自己的利益，同时最小化对手的利益。
+
+考虑游戏空间$G$，其博弈树是一个有向图$T = (V, E)$。每个节点$v \in V$代表游戏的一个状态，每条边$(v, v') \in E$表示从状态$v$到$v'$的合法移动。搜索的目标是通过遍历博弈树，找到一条路径，最大（最小）化某个评估值函数$U: G \rightarrow \mathbb{R}$​。
+
+### Minimax搜索
+
+Minimax搜索是博弈树搜索算法的一种，用于找到对当前玩家最优的决策。
+
+算法的核心在于模拟游戏的每一步，包括当前玩家（最大化玩家）的所有可能移动，以及对手（最小化玩家）的所有可能回应。
+
+对于博弈树中的每个节点，定义其评估值如下：
+
+- 对于最大化玩家：$U(v) = \max_{v' \in \text{Children}(v)} U(v')$
+- 对于最小化玩家：$U(v) = \min_{v' \in \text{Children}(v)} U(v')$
+
+其中，$\text{Children}(v)$表示节点$v$​的所有子节点。
+
+通过这种方式，算法能够为根节点找到最优值，即第一个移动的玩家的最佳行动策略。
+
+### Alpha-Beta剪枝
+
+在Minimax搜索的基础上，Alpha-Beta剪枝额外维护两个参数$\alpha$和$\beta$。
+
+$\alpha$是到目前为止在路径上的所有选择中，最大化玩家的最低得分；反之，$\beta$是最小化玩家的最高得分。
+
+- 对于最大化节点$v$：$\alpha = \max(\alpha, U(v))$。如果$U(v) \geq \beta$，剪枝该节点及其所有子节点。
+- 对于最小化节点$v$：$\beta = \min(\beta, U(v))$。如果$U(v) \leq \alpha$，剪枝该节点及其所有子节点。
+
+Alpha-Beta剪枝可以显著减少搜索空间，实现在相同时间内搜索到更深层的节点，提高搜索效率。
