@@ -2,6 +2,16 @@
 
 Codes & reports for artificial intelligence laboratory (DCS315) 
 
+## Contents:
+
+- **lab1**: Python Basic.
+- **lab2**: Python Basic.
+- **lab3**: Knowledge Representation and Reasoning - ResolutionFOL.
+- **lab4**: Advanced Searching - AI Chess.
+- **lab5**: Advanced Searching - GA algorithm for TSP.
+- **lab6**: Machine Learning - House Purchase Prediction.
+- **lab7**: Machine Learning - Credit Prediction.
+
 ## Note:
 
 - The purpose of creating this repository is to provide ideas for everyone, while documenting my own accomplishments.
