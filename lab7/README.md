@@ -3,9 +3,13 @@
 ## 文件结构
 
 * `DecisionTree.ipynb`：代码。
-* **准确率: 84.29% **
+
+  **准确率: 84.29%**
+
 * `Task.pdf`: 任务描述。
+
 * `Tutor.pptx`: 实验课件。
+
 * `data/`：所需要的数据。
 
 ## 算法原理
@@ -47,13 +51,13 @@ C4.5 算法改进了 ID3，通过使用信息增益率来克服 ID3 偏好选择
 信息增益率定义为信息增益和特征 A 的固有信息（分割信息）之比：
 
 $$
-\text{Gain\_ratio}(D, A) = \frac{\text{Gain}(D, A)}{\text{Split\_Info}(D, A)}
+\text{GainRatio}(D, A) = \frac{\text{Gain}(D, A)}{\text{SplitInfo}(D, A)}
 $$
 
-其中，分割信息 $\text{Split\_Info}(D, A)$ 的计算公式为：
+其中，分割信息 $\text{SplitInfo}(D, A)$ 的计算公式为：
 
 $$
-\text{Split\_Info}(D, A) = -\sum_{v \in \text{Values}(A)} \frac{|D_v|}{|D|} \log_2 \frac{|D_v|}{|D|}
+\text{SplitInfo}(D, A) = -\sum_{v \in \text{Values}(A)} \frac{|D_v|}{|D|} \log_2 \frac{|D_v|}{|D|}
 $$
 
 ### 剪枝方法
