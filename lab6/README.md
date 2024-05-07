@@ -4,7 +4,7 @@
 
 * `lab6-numpy.ipynb`: 只使用NumPy实现的版本。
 
-  * **准确率: 94.25% (w/MLP)**
+  * **准确率: 94.75% (w/MLP)**
 
 * `lab6-pytorch.ipynb`: 使用PyTorch完成的版本。
 
