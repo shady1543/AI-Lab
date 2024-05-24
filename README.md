@@ -14,7 +14,7 @@ Codes & reports for artificial intelligence laboratory (DCS315)
 - **lab6**: Machine Learning -  Logistic Regression/MLP for House Purchase Prediction.
 - **lab7**: Machine Learning - Decision Tree for Credit Prediction.
 - **lab8**: Deep Learning - CNN for Traditional Chinese Medicine Prediction.
-- **lab10**: Reinforcement Learning - DQN for Traditional Chinese Medicine Prediction.
+- **lab10**: Reinforcement Learning - DQN for CartPole-v0.
 
 ## Note:
 
