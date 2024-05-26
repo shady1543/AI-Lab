@@ -6,15 +6,17 @@ Codes & reports for artificial intelligence laboratory (DCS315)
 
 ## Contents:
 
-- **lab1**: Python Basic.
-- **lab2**: Python Basic.
-- **lab3**: Knowledge Representation and Reasoning - ResolutionFOL.
-- **lab4**: Advanced Searching - MiniMax algorithm for AI Chess.
-- **lab5**: Advanced Searching - GA algorithm for TSP.
-- **lab6**: Machine Learning -  Logistic Regression/MLP for House Purchase Prediction.
-- **lab7**: Machine Learning - Decision Tree for Credit Prediction.
-- **lab8**: Deep Learning - CNN for Traditional Chinese Medicine Prediction.
-- **lab10**: Reinforcement Learning - DQN for CartPole-v0.
+| Lab   | Field                                  | Algorithm                 | Project/Task                            |
+| ----- | -------------------------------------- | ------------------------- | --------------------------------------- |
+| lab1  | Python Basic                           | -                         | -                                       |
+| lab2  | Python Basic                           | -                         | -                                       |
+| lab3  | Knowledge Representation and Reasoning | Resolution Principle      | ResolutionFOL                           |
+| lab4  | Advanced Searching                     | MiniMax Searching         | AI Chess                                |
+| lab5  | Advanced Searching                     | Genetic Algorithm         | TSP (Traveling Salesman Problem)        |
+| lab6  | Machine Learning                       | Logistic Regression / MLP | House Purchase Prediction               |
+| lab7  | Machine Learning                       | Decision Tree             | Credit Prediction                       |
+| lab8  | Deep Learning                          | CNN                       | Traditional Chinese Medicine Prediction |
+| lab10 | Reinforcement Learning                 | DQN                       | CartPole-v0                             |
 
 ## Note:
 
