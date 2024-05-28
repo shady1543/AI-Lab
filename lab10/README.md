@@ -15,11 +15,11 @@ python main.py
 
 ## 创新点
 
-- 改用 DDQN 算法，关键代码位于 `lab10/code/agent_dir/agent_dqn.py` 的 116 - 117 行。
+- 改用 DDQN 算法，详见 `lab10/code/agent_dir/agent_dqn.py` 的 116 - 117 行。
 - 使用带有优先级的经验回收池，优先采样缺乏训练的样本对。
 
 ## 可视化
 
-20+ 次游玩即可收敛。
+**State of the art，无需多言。**
 
-![img](assets/show.png)
+![img](assets/reward.png)
