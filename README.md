@@ -16,6 +16,7 @@ Codes & reports for artificial intelligence laboratory (DCS315)
 | lab6  | Machine Learning                       | Logistic Regression / MLP | House Purchase Prediction               |
 | lab7  | Machine Learning                       | Decision Tree             | Credit Prediction                       |
 | lab8  | Deep Learning                          | CNN                       | Traditional Chinese Medicine Prediction |
+| lab9  | Reinforcement Learning                 | Q-Learning & SARSA        | Maze                                    |
 | lab10 | Reinforcement Learning                 | DQN                       | CartPole-v0                             |
 
 ## Note:
