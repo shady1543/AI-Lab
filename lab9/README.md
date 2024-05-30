@@ -58,4 +58,10 @@ SARSA（State-Action-Reward-State-Action）是一种基于在线策略的强化�
 - **策略性质**：Q-Learning 是一种离策略算法，因为更新时所用的 $\max_{a'} Q(s', a')$ 不依赖于当前策略；而SARSA是基于当前策略的在策略算法。
 - **更新方式**：Q-Learning 使用的是下一状态的最优动作值来更新当前状态的Q值；SARSA使用的是实际选择的动作值来更新当前状态的Q值。
 
-Q-Learning 通常可以收敛到最优策略，而SARSA 在探索期间可能会更为稳定。
+Q-Learning 通常可以收敛到最优策略，而 SARSA 在探索期间可能会更为稳定。
+
+### 创新点
+
+**多步学习**
+
+参考函数 `n_steps_learn()`。

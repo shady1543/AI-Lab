@@ -34,6 +34,25 @@ class Sarsa:
             q_target = r
         self.q_table.loc[s, a] += self.lr * (q_target - q_pre)
 
+    def n_steps_learn(self, s, a, r, s_):
+        self.check_state_exist(s_)
+        self.state_action_reward.append((s, a, r))
+
+        if len(self.state_action_reward) >= self.n_steps:
+            G = sum([self.gamma**i * self.state_action_reward[i][2] for i in range(self.n_steps)])
+            if s_ != 'terminal':
+                s_n, a_n = s_, self.choose_action(s_)
+                G += self.gamma**self.n_steps * self.q_table.at[s_n, a_n]
+            
+            s_n, a_n, _ = self.state_action_reward.pop(0)
+            q_pre = self.q_table.at[s_n, a_n]
+            self.q_table.at[s_n, a_n] += self.lr * (G - q_pre)
+        
+        if s_ == 'terminal':
+            self.state_action_reward = []
+        
+        return
+
     def check_state_exist(self, state):
         ''' check state '''
         if state not in self.q_table.index:
