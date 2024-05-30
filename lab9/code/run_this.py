@@ -14,9 +14,7 @@ from RL_q_learning import QLearning
 from RL_sarsa import Sarsa
 import matplotlib.pyplot as plt
 import numpy as np
-plt.rcParams['font.sans-serif']    = ['SimHei']  # 用来正常显示中文标签
-plt.rcParams['axes.unicode_minus'] = False       # 用来正常显示符号
-
+import argparse
 
 def update():
     flag   = []
@@ -71,25 +69,27 @@ def update():
     '''
     画出迭代结果和迭代次数的关系曲线图
     '''
-    plt.title('Result analysis', fontsize=20)
-    plt.xlabel('iteration times', fontsize=20)
-    plt.ylabel('number of steps', fontsize=20)
+    plt.title(f'Result analysis of {args.algorithm}')
+    plt.xlabel('Iteration')
+    plt.ylabel('Steps')
     plt.scatter(np.arange(100), number, c=flag)
     plt.show()
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Choose the RL algorithm.")
+    parser.add_argument('--algorithm', choices=['QLearning', 'Sarsa'], default='Sarsa')
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    env = Maze()
+    env  = Maze()
+    args = parse_arguments()
 
-    '''
-    build RL Class
-    RL = QLearning(actions=list(range(env.n_actions)))
-    RL = Sarsa(actions=list(range(env.n_actions)))
-    '''
-
-    RL = QLearning(actions=list(range(env.n_actions)))
-
-    # RL = Sarsa(actions=list(range(env.n_actions)))
+    if args.algorithm == 'QLearning':
+        RL = QLearning(actions=list(range(env.n_actions)))
+    elif args.algorithm == 'Sarsa':
+        RL = Sarsa(actions=list(range(env.n_actions)))
 
     env.after(100, update)
     env.mainloop()

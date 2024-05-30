@@ -13,7 +13,7 @@ class QLearning:
         self.q_table = pd.DataFrame(columns=self.actions, dtype=np.float64)
 
     def choose_action(self, observation):
-        ''' choose action from q table '''
+        """choose an action from q table."""
         self.check_state_exist(observation)
         # 以一定的概率选择Q值最大的action
         if np.random.uniform() < self.epsilon:
@@ -25,7 +25,7 @@ class QLearning:
         return action
 
     def learn(self, s, a, r, s_):
-        ''' update q table '''
+        """update the q table."""
         self.check_state_exist(s_)
         q_pre  = self.q_table.loc[s,a]
         # Qlearning的a'的选择采用的是贪心选择，直接接受最大值
@@ -36,6 +36,7 @@ class QLearning:
         self.q_table.loc[s,a] += self.lr * (q_target - q_pre)
 
     def n_steps_learn(self, s, a, r, s_):
+        """n-step learning optimization."""
         self.check_state_exist(s_)
         self.state_action_reward.append((s, a, r))
 
@@ -54,13 +55,7 @@ class QLearning:
         return
 
     def check_state_exist(self, state):
-        ''' check state '''
+        """check the state."""
         # 检查当前状态是否在Q值表里，如果不在则补充
         if state not in self.q_table.index:
-            self.q_table = self.q_table.append(
-                pd.Series(
-                    [0] * len(self.actions),
-                    index=self.q_table.columns,
-                    name=state,
-                )
-            )
+            self.q_table.loc[state] = [0] * len(self.actions)

@@ -9,11 +9,11 @@ class Sarsa:
         self.gamma   = reward_decay
         self.epsilon = e_greedy
 
-        ''' build q table'''
+        """ build q table"""
         self.q_table = pd.DataFrame(columns=self.actions, dtype=np.float64)
 
     def choose_action(self, observation):
-        ''' choose action from q table '''
+        """choose an action from q table."""
         self.check_state_exist(observation)
         if np.random.rand() < self.epsilon:
             state_action = self.q_table.loc[observation, :]
@@ -23,7 +23,7 @@ class Sarsa:
         return action
 
     def learn(self, s, a, r, s_):
-        ''' update q table '''
+        """update the q table."""
         self.check_state_exist(s_)
         # 和Q_learning的区别，这里的a_是采用epsilon贪心选择
         a_     = self.choose_action(s_)
@@ -35,6 +35,7 @@ class Sarsa:
         self.q_table.loc[s, a] += self.lr * (q_target - q_pre)
 
     def n_steps_learn(self, s, a, r, s_):
+        """n-step learning optimization."""
         self.check_state_exist(s_)
         self.state_action_reward.append((s, a, r))
 
@@ -43,23 +44,17 @@ class Sarsa:
             if s_ != 'terminal':
                 s_n, a_n = s_, self.choose_action(s_)
                 G += self.gamma**self.n_steps * self.q_table.at[s_n, a_n]
-            
+
             s_n, a_n, _ = self.state_action_reward.pop(0)
             q_pre = self.q_table.at[s_n, a_n]
             self.q_table.at[s_n, a_n] += self.lr * (G - q_pre)
-        
+
         if s_ == 'terminal':
             self.state_action_reward = []
-        
+
         return
 
     def check_state_exist(self, state):
-        ''' check state '''
+        """check the state."""
         if state not in self.q_table.index:
-            self.q_table = self.q_table.append(
-                pd.Series(
-                    [0] * len(self.actions),
-                    index=self.q_table.columns,
-                    name=state,
-                )
-            )
+            self.q_table.loc[state] = [0] * len(self.actions)
