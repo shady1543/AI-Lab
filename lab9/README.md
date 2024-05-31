@@ -96,7 +96,10 @@ $$
 
 ## 效果展示
 
-只展示Q-Learning的结果。别问，问就是另一个懒得跑。
+**Q-Learning**
 
 ![img](assets/QLearning.png)
 
+**SARSA**
+
+![img](assets/Sarsa.png)
